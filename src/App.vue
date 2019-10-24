@@ -2,19 +2,27 @@
 #app
   h1 記帳程式
   hr
-  RecordList(v-bind:records="records")
+  RecordList(v-bind:recordsGetData="records" 
+            @removeListItem = "List1RemoveItem")
   h2 第二個人
-  RecordList(v-bind:records="records2")
+  RecordList(v-bind:recordsGetData="records2"
+            @removeListItem = "List2RemoveItem")
+  hr
+  input(v-model="newRec.date" placeholder="日期")
+  input(v-model.number="newRec.price" placeholder="價格")
+  input(v-model="newRec.cata" placeholder="種類")
+  button(@click="addRec") 加入資料
 
 </template>
 
 <script>
-import RecordList from './components/RecordList.vue'
+// import RecordList from './components/RecordList.vue'
 export default {
   name: 'app',
   data () {
     return {
       msg: 'Welcome to lonelykite Vue.js App',
+      newRec: {},
       records: [
         {
           date: "2019/10/22",
@@ -50,7 +58,7 @@ export default {
         },
         {
           date: "2019/10/23",
-          price: 20000,
+          price: 2000,
           cata: "iPhone 8"
         },
         {
@@ -60,7 +68,7 @@ export default {
         },
         {
           date: "2019/10/23",
-          price: 4258570,
+          price: 425,
           cata: "iPhone 10"
         },
         {
@@ -71,13 +79,31 @@ export default {
       ]
     }
   },
-  components: {
-    RecordList: RecordList
-  }
+
+  methods: {
+    List1RemoveItem(obj){
+      console.log(obj)
+      console.log("收到事件")
+      this.records = this.records.filter(item=>item !== obj.rec)
+    },
+    List2RemoveItem(obj){
+      console.log(obj)
+      console.log("收到事件2")
+      this.records2 = this.records2.filter(item=>item !== obj.rec)
+    },
+    addRec(){
+      this.records.push(this.newRec)
+      this.newRec={}
+    }
+  },
+
+  // components: {
+  //   RecordList: RecordList
+  // }
+
 }
 </script>
 
 <style lang="sass">
-#app 
-  
+
 </style>
